@@ -5,3 +5,6 @@
     <li><%= secret.title %></li>
   <% end %>
 </ul>
+
+<h2>Share a Secret</h2>
+<%= render :partial => "form", :locals => {:user => @user} %>

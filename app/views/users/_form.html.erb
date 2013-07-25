@@ -1,0 +1,31 @@
+<form id="new-secret-form" action="<%= user_secrets_url(user) %>" method="post">
+  <input type="text" name="secret[title]">
+
+  <input type="submit">
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+</form>
+
+<script>
+$(":submit").on("click",
+
+  function(event){
+
+    event.preventDefault();
+
+    var that = $(this);
+    var form = that.closest('form');
+    $.ajax({
+      url: form.attr('action'),
+      type: "POST",
+      data: form.serialize(),
+      success: function () {
+        $("ul").append("<li>" + $(":text").val() + "</li>");
+        $(":text").val("");
+      }
+    });
+  }
+
+);
+</script>

@@ -1,0 +1,56 @@
+<h1>Users!</h1>
+<ul>
+<% @users.each do |user| %>
+<li><%= user.username %></li>
+<div class="friend_buttons <%= current_user.friends.include?(user) ? "friended" : "unfriended" %>">
+<%= button_to "friend",
+              user_friendship_url(user.id),
+              :id => "add-friend-button",
+              :class => "friend"%>
+<%= button_to "unfriend",
+              user_friendship_url(user.id),
+              :method => :delete,
+              :id => "remove-friend-button",
+              :class => "unfriend"%>
+</div>
+<% end %>
+</ul>
+<script>
+$(".button_to").find('input[type="submit"]').on("click",
+
+  function(event){
+
+
+    event.preventDefault();
+
+    var that = $(this);
+    var form = that.closest('form');
+    $.ajax({
+      // beforeSend: function(){
+      //   that.attr("value", "Friending...")
+      // }
+      url: form.attr('action'),
+      type: "POST",
+      data: form.serialize(),
+      success: function () {
+        //Change text to friended and make it disabled
+        //if else goes here
+        if( form.parent("div").hasClass('friended')){
+          form.parent("div").removeClass('friended');
+          form.parent("div").addClass('unfriended');
+          console.log(that);
+        }
+        else{
+          form.parent("div").removeClass('unfriended');
+          form.parent("div").addClass('friended');
+          console.log(that);
+
+        }
+      }
+    });
+  }
+
+);
+</script>
+
+
